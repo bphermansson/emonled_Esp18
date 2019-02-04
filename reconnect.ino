@@ -8,7 +8,7 @@ void mqttreconnect() {
         snprintf (msg, 150, "Connected to Mqtt broker as %s", appname);
         Serial.print("Publish message: ");
         Serial.println(msg);
-        client.publish(mqtt_debug_topic, msg);
+        client.publish(mqtt_value_topic, msg);
         
       #endif
       client.subscribe(mqtt_tempin_topic);

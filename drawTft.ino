@@ -71,15 +71,18 @@ void drawTft() {
   tft.setTextColor(ST7735_GREEN);
   tft.setTextSize(3);
   tft.setCursor(10,130); // x,y    
-  tft.print(indoortemp);
+  tft.print(chtutemp);
+  Serial.print("indoortemp: ");  
   Serial.println(indoortemp);
 
   tft.setTextSize(2);
   tft.setCursor(85,105); // x,y    
   char indoorhumpercent[10];
-  strcpy(indoorhumpercent, indoorhumidity);
+  strcpy(indoorhumpercent, chtuhum);
   strcat(indoorhumpercent, "%");
   
-  tft.print(indoorhumpercent);
-  
+  tft.print(int(indoorhumpercent));
+  Serial.print("indoorhumpercent: ");  
+  Serial.println(indoorhumpercent);
+
 }
