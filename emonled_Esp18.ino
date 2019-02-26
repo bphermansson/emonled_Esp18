@@ -3,7 +3,6 @@
 #include <ArduinoJson.h>
 #include <SPI.h>
 #include <SD.h>
-
 #include <Wire.h>
 #include "Adafruit_HTU21DF.h"
 #include "Adafruit_CCS811.h"
@@ -69,7 +68,6 @@ https://www.instructables.com/id/ILI9341-Touch-Shield-for-Wemos-D1-Mini/
 */
 // https://www.esp8266.com/wiki/lib/exe/detail.php?id=esp8266_gpio_pin_allocations&media=pin_functions.png
 #define sdcs 3 // Gpio3 = RXD
-//#define SD_CS D0    // display pin 14
 
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
 
@@ -93,7 +91,6 @@ The CCS-lib looks for a device at 0x5A. Either close the jumper "ADDR" or change
 */
 Adafruit_HTU21DF htudev = Adafruit_HTU21DF();
 float htutemp, htuhum;
-//int ihtutemp, ihtuhum;
 char chtutemp[5];
 char chtuhum[5];
 
@@ -135,13 +132,12 @@ const char* winddir;
 const char* airpressure;
 int outdoorwind, wd;
 String winddirs[50] = {"N","NNO", "NO", "ONO", "O", "OSO", "SO", "SSO", "S", "SSV", "SV", "VSV", "V", "VNV", "NV", "NNV"};    
-
 int h1, h2, m1, m2;
-//float tempNow;
 
 unsigned long timenow;
 boolean errorflag=0;
 
+// Air quality values
 int eCO2;
 int TVOC;
 
@@ -153,7 +149,6 @@ int TVOC;
 
 // Mqtt
 #include <PubSubClient.h>
-//JsonObject& root = jsonBuffer.createObject();
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -168,19 +163,9 @@ void setup() {
 
   // TM1637 LED
   display.setBrightness(0x0f);      // 0-7d
-  /*
-  data[0] = display.encodeDigit(0);
-  data[1] = display.encodeDigit(1);
-  data[2] = display.encodeDigit(2);
-  data[3] = display.encodeDigit(3);
-  display.setSegments(data);
-  */
-
-  //  void showNumberDecEx(int num, uint8_t dots = 0, bool leading_zero = false, uint8_t length = 4, uint8_t pos = 0);
   display.showNumberDecEx(1234, 0b01000000, false, 4, 0);
 
   // ST7735 TFT
-  // tft.initR(INITR_GREENTAB);   // initialize a ST7735S chip, black tab
   tft.begin();
   tft.fillScreen(ILI9341_BLACK);
   tft.setTextColor(ILI9341_GREEN); // Green on black
@@ -204,14 +189,14 @@ void setup() {
   client.setCallback(callback);
   client.publish(mqtt_debug_topic, "Emonled started");
 
+  // Over the air programming
   otafunk();
   
   tft.fillScreen(ILI9341_BLACK);
-  tft.setTextColor(ILI9341_RED); // Green on black
+  tft.setTextColor(ILI9341_RED); // Red on black
   tft.setCursor(2,20); // x,y    
   tft.setTextSize(2);
   tft.print("Waiting for data.");
-
 
   Serial.print(F("Initializing SD card..."));
   // Use RX as Gpio
@@ -220,15 +205,18 @@ void setup() {
     Serial.println("failed!");
   }
 
-
   if (!htudev.begin()) {
     Serial.println("Couldn't find HTU sensor!");
     errorflag=1;
+    client.publish(mqtt_debug_topic, "HTU21D error");
   }
-
+  else {
+    Serial.println("HTU21D sensor ok");    
+  }
   if(!ccs.begin()){
     Serial.println("Failed to start CCS811 sensor! Please check your wiring.");
     errorflag=1;
+    client.publish(mqtt_debug_topic, "CCS811 error");
   }
   else {
     Serial.println("CCS811 sensor ok");    
@@ -260,7 +248,6 @@ void loop() {
     drawTft();
     
     // Publish values from local sensor
-
     StaticJsonBuffer<150> jsonBuffer;
     JsonObject& root = jsonBuffer.createObject();
     char msg[100];
@@ -270,8 +257,6 @@ void loop() {
     root["TVOC"]= TVOC;
     root.printTo((char*)msg, root.measureLength() + 1);
     client.publish(mqtt_value_topic, msg, true);  // Send with retain=true
-
-    
    }
   
   // Mqtt

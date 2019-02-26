@@ -15,7 +15,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
   // Timestamp
   if (strcmp(topic,mqtt_time_topic)==0) {
     stringPayload = stringPayload.substring(0,10);  // Convert from timestamp in millis to ts i seconds
-    //Serial.println(stringPayload);
     
     t = stringPayload.toInt();
     setTime(t); 
@@ -96,4 +95,3 @@ const char* device = root["device"]; // "DKW2012"
 const char* id = root["id"]; // "0022"
 */
 }
-
