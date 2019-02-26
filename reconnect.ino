@@ -11,14 +11,14 @@ void mqttreconnect() {
         client.publish(mqtt_value_topic, msg);
         
       #endif
-      client.subscribe(mqtt_tempin_topic);
+//      client.subscribe(mqtt_tempin_topic);
       client.subscribe(mqtt_time_topic);
       int con = client.subscribe(mqtt_indoorsensor_topic);
       //Serial.println(con);  // 1 if connection is succesfull
       //client.subscribe(mqtt_ha_topic);
       #ifdef DEBUG
         Serial.print("Subscribed to: ");
-        Serial.print(mqtt_tempin_topic);
+//        Serial.print(mqtt_tempin_topic);
         Serial.print(",  ");        
         Serial.println(mqtt_time_topic);
         Serial.println(mqtt_indoorsensor_topic);

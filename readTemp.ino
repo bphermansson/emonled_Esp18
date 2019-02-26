@@ -20,7 +20,6 @@ void readTemp() {
   JsonObject& rootT = jsonBuffer.parseObject(payload);
   outdoortemp = rootT["state"]; 
   const char* last_updated = rootT["last_updated"]; // "2019-01-01T08:21:03.397305+00:00"
-  
+  Serial.print("Read outdoortemp: ");  
   Serial.println(outdoortemp);
 }
-
