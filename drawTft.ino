@@ -16,7 +16,7 @@ void drawTft() {
   tft.setTextSize(2);
   tft.setTextColor(ILI9341_WHITE);
   tft.setFont(&FreeSans24pt7b);
-  outdoortemp = "-24.5";
+  //outdoortemp = "-24.5";
 
   // Check if temp is below zero
   long ltemp = atol( outdoortemp );
@@ -27,7 +27,7 @@ void drawTft() {
       tft.setCursor(30,70); // x,y
   }
   else {
-      tft.setCursor(50,70); // x,y
+      tft.setCursor(53,70); // x,y
   }
   tft.print(outdoortemp);
 
@@ -50,7 +50,7 @@ void drawTft() {
   tft.setCursor(30,124); // left,top
   //tft.setFont(&FreeSans24pt7b);
   //tft.print("W:");
-  outdoorwind=23;
+  //outdoorwind=23;
   tft.print(outdoorwind);
   tft.print(" m/s ");
   
@@ -173,7 +173,13 @@ void drawTftHor() {
 
   tft.setFont(&FreeSans18pt7b);
   tft.setTextSize(1);
-  //tft.setCursor(120,227); // x,y    
+  if (htuhum<40) {
+      tft.setTextColor(ILI9341_RED);
+  }
+  else {
+      tft.setTextColor(ILI9341_GREEN);
+  }
+  
   char indoorhumpercent[10];
   strcpy(indoorhumpercent, chtuhum);
   strcat(indoorhumpercent, "%");  

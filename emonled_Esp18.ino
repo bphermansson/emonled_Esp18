@@ -239,6 +239,7 @@ void loop() {
     
     // Read temp
     readTemp();  
+    readHum();
     readWind();
     readPressure();
     readhtu();

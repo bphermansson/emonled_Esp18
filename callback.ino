@@ -42,7 +42,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   if (strcmp(topic,mqtt_tempin_topic)==0) {
     JsonObject& root = jsonBuffer.parseObject(stringPayload);
     outdoortemp = root["temp"];
-    outdoorhum = root["hum"];
+    //outdoorhum = root["hum"];
     winddir = root["winddir"];
     wd = root["winddir"];
     //Serial.println(wd);
@@ -55,7 +55,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print("winddir: ");
     Serial.println(winddirs[wd]);
     Serial.println(outdoorwind);
-    Serial.println(outdoorhum);
+    //Serial.println(outdoorhum);
     
 
     //Serial.print("Temp from mqtt: ");
