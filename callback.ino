@@ -1,6 +1,6 @@
 void callback(char* topic, byte* payload, unsigned int length) {
   String stringPayload = "";
-  const int offset = 1;   // Central European Time
+  const int offset = 0;   // Central European Time
 
   Serial.print("Message arrived with topic ");
   Serial.println(topic);

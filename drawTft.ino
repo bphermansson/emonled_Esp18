@@ -91,6 +91,7 @@ void drawTft() {
   tft.print(indoorhumpercent);
   Serial.print("indoorhumpercent: ");  
   Serial.println(indoorhumpercent);
+  
 
 }
 void drawTftHor() { 

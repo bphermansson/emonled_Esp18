@@ -1,4 +1,12 @@
 // Version with ILI9341 TFT
+
+/*
+ * /media/nasFiler/Programmering/Arduino/sketchbook/Esp/emonled_Esp18 
+ * git add .
+ * git commit -m "Commit message"
+ * git push origin ILI9341TFT
+ */
+
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 #include <SPI.h>
