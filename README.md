@@ -5,3 +5,6 @@ The second is a TFT based on ILI9341. This shows outdoor temp, humidity, wind sp
 It also shows indoor temp and humidity. 
 The device also has local sensors for temp, humidity and air quality. The temp and humidity is shown on the TFT, all values are published via Mqtt. 
 The device is based on a Wemos Mini D1. 
+
+
+![Alt text](relative/path/to/img.jpg?raw=true "Title")
