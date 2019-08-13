@@ -1,3 +1,6 @@
+// Ref: https://learn.sparkfun.com/tutorials/ccs811-air-quality-breakout-hookup-guide
+
+
 void readCCS() {
   if(ccs.available()){
     Serial.println("Read CCS811");
