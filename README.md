@@ -13,3 +13,5 @@ The values sent to the MQTT-broker are the temp and humidity read from the local
 
 <br>
 The device is based on a Wemos Mini D1 but can be built with other ESP8266-based cards too. 
+
+![Alt text](IMG_20190509_124258.jpg?raw=true "emonled_Esp18")
