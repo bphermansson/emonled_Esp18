@@ -53,6 +53,9 @@ void drawTft() {
   //outdoorwind=23;
   tft.print(outdoorwind);
   tft.print(" m/s ");
+  if (rain=="on") {
+    tft.print(" R");
+  }
   
   //int16_t  x1, y1;
   //uint16_t w, h;

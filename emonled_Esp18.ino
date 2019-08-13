@@ -10,7 +10,7 @@
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 #include <SPI.h>
-#include <SD.h>
+//#include <SD.h>
 #include <Wire.h>
 #include "Adafruit_HTU21DF.h"
 #include "Adafruit_CCS811.h"
@@ -55,6 +55,7 @@ void otafunk();
 void drawTft();
 void weathercheck();
 void readhtu();
+void readRain();
 
 #define TFT_DC D4   // 5 DC/RS 
 #define TFT_CS D8   // 3 CS    
@@ -132,7 +133,8 @@ char* mqtt_time_topic = "time";
 const char compile_date[] = __DATE__ " " __TIME__;
 #define appname "Emonled18"
 bool displayState=true;
-const char* outdoortemp;
+const char* outdoortemp; 
+const char* rain;
 const char* outdoorhum="-";
 const char* indoortemp="---";
 const char* indoorhumidity="-";
@@ -205,14 +207,14 @@ void setup() {
   tft.setCursor(2,20); // x,y    
   tft.setTextSize(2);
   tft.print("Waiting for data.");
-
+/*
   Serial.print(F("Initializing SD card..."));
   // Use RX as Gpio
   pinMode(sdcs, FUNCTION_3);
   if (!SD.begin(sdcs)) {
     Serial.println("failed!");
   }
-
+*/
   if (!htudev.begin()) {
     Serial.println("Couldn't find HTU sensor!");
     errorflag=1;
@@ -253,6 +255,7 @@ void loop() {
     readhtu();
     //weathercheck();
     readCCS();
+    readRain();
 //    drawTftHor();
     drawTft();
     

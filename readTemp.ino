@@ -8,7 +8,8 @@ void readTemp() {
   // All states: http://192.168.1.190:8123/api/states?api_password=
 
   char httpaddr[100];
-  strcpy (httpaddr, "http://192.168.1.190:8123/api/states/sensor.satenas_lufttemperatur?api_password=");
+  //strcpy (httpaddr, "http://192.168.1.190:8123/api/states/sensor.satenas_lufttemperatur?api_password=");  
+  strcpy (httpaddr, "http://192.168.1.190:8123/api/states/sensor.emontxv3ehyhtu21d_temperature?api_password=");
   strcat (httpaddr, hasspass);  // Add password from file
   
   http.begin(httpaddr);
