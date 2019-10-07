@@ -14,7 +14,7 @@
 #include <Wire.h>
 #include "Adafruit_HTU21DF.h"
 #include "Adafruit_CCS811.h"
-
+#include <ESP8266mDNS.h>
 #include "password.h"
 
 // Special char 'ms2', 33x21px
@@ -173,16 +173,16 @@ void setup() {
 
   // TM1637 LED
   display.setBrightness(0x0f);      // 0-7d
-  display.showNumberDecEx(1234, 0b01000000, false, 4, 0);
+  display.showNumberDecEx(0000, 0b01000000, false, 4, 0);
 
   // ST7735 TFT
   tft.begin();
-  tft.fillScreen(ILI9341_BLACK);
-  tft.setTextColor(ILI9341_GREEN); // Green on black
+  tft.fillScreen(ILI9341_YELLOW);
+  tft.setTextColor(ILI9341_BLUE); 
   tft.setTextSize(2);
   tft.setRotation(2);
   tft.setCursor(2,35); // x,y
-  tft.print("Connecting...");
+  tft.print("Connecting to WiFi");
   
   // Wifi, code from WifiManagerAutoConnect example
   WiFiManager wifiManager;
@@ -190,6 +190,12 @@ void setup() {
   WiFi.hostname("Emonled");
   Serial.print("Connected to Wifi with IP ");
   Serial.println(WiFi.localIP());
+
+  if (!MDNS.begin(appname)) {             // Start the mDNS responder for esp8266.local
+    Serial.println("Error setting up MDNS responder!");
+  }
+  Serial.println("mDNS responder started");
+
 
   // Setup Mqtt connection
   client.setServer(mqtt_server, 1883);
@@ -202,8 +208,7 @@ void setup() {
   // Over the air programming
   otafunk();
   
-  tft.fillScreen(ILI9341_BLACK);
-  tft.setTextColor(ILI9341_RED); // Red on black
+  tft.fillScreen(ILI9341_ORANGE);
   tft.setCursor(2,20); // x,y    
   tft.setTextSize(2);
   tft.print("Waiting for data.");
@@ -229,8 +234,17 @@ void setup() {
     client.publish(mqtt_debug_topic, "CCS811 error");
   }
   else {
-    Serial.println("CCS811 sensor ok");    
+    Serial.println("CCS811 sensor ok"); 
+    errorflag=0;
   }
+  if (errorflag>0) {
+    tft.fillScreen(ILI9341_ORANGE);
+    tft.setCursor(2,20); // x,y    
+    tft.setTextSize(2);
+    tft.print("Sensor error");
+    delay(2000);
+  }
+  
   Serial.println("Setup done");
 }
 
